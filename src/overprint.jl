@@ -1,5 +1,3 @@
-
-
 module Cursor
     # \u1b  = dec \033
     const ERASE_TO_EOL = "\u1b[K"

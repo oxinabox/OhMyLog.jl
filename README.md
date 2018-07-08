@@ -18,3 +18,4 @@ Start it by running `using OhMyLog`
 
 ## Demo
 
+[![asciicast](https://asciinema.org/a/Cl5lps1KrhprTIvhipTPZfWNC.png)](https://asciinema.org/a/Cl5lps1KrhprTIvhipTPZfWNC?t=42)
