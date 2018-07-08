@@ -1,0 +1,8 @@
+authors = ["oxinabox <oxinabox@ucc.asn.au>"]
+name = "OhMyLog"
+uuid = "87a8ba8a-8291-11e8-1400-3f54bf2fbdfe"
+version = "0.1.0"
+
+[deps]
+Crayons = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
