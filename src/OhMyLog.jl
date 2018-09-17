@@ -38,6 +38,7 @@ export
 
 
 include("overprint.jl")
+include("progress.jl")
 include("core.jl")
 
 

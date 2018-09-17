@@ -38,7 +38,7 @@ function OhMyLogger(stream::IO=stderr, min_level=Info;
     OhMyLogger(stream, min_level, meta_formatter,
                show_limited, right_justify, Dict{Any,Int}(),
                Ref(0), Ref(Symbol(""))
-                )
+              )
 end
 
 shouldlog(logger::OhMyLogger, level, _module, group, id) =
@@ -46,14 +46,28 @@ shouldlog(logger::OhMyLogger, level, _module, group, id) =
 
 min_enabled_level(logger::OhMyLogger) = logger.min_level
 
-# Formatting of values in key value pairs
-showvalue(io, msg) = show(io, "text/plain", msg)
-function showvalue(io, e::Tuple{Exception,Any})
+##################### Formatting of values in key value pairs #######################
+showvalue(io, msg, key::Symbol) = showvalue(io, msg, Val{key}())
+_showvalue(io, msg) = show(io, "text/plain", msg)
+
+function showvalue(io, msg, ::Any)
+    if msg isa AbstractString && occursin(r"\%\s*$", msg) # ends with a %
+        showvalue(io, msg, Val{:progress}())
+    else
+        _showvalue(io, msg)
+    end
+end
+
+showvalue(io, msg, ::Val{:progress}) = _showvalue(io, progress_message(msg))
+
+
+function showvalue(io, e::Tuple{Exception,Any}, ::Any)
     ex,bt = e
     showerror(io, ex, bt; backtrace = bt!=nothing)
 end
-showvalue(io, ex::Exception) = showerror(io, ex)
+showvalue(io, ex::Exception, ::Any) = showerror(io, ex)
 
+#####################################################################################
 function default_logcolor(level)
     level < Info  ? Base.debug_color() :
     level < Warn  ? Base.info_color()  :
@@ -108,7 +122,7 @@ function prepare_output(logger::OhMyLogger, level, message, _module, group, id,
             valio = IOContext(valio, :limit=>true)
         end
         for (key,val) in pairs(kwargs)
-            showvalue(valio, val)
+            showvalue(valio, val, key)
             vallines = split(String(take!(valbuf)), '\n')
             if length(vallines) == 1
                 push!(msglines, (indent=2,msg=SubString("$key = $(vallines[1])")))
@@ -121,7 +135,7 @@ function prepare_output(logger::OhMyLogger, level, message, _module, group, id,
 
     # Format lines as text with appropriate indentation and with a box
     # decoration on the left.
-    color,prefix,suffix = logger.meta_formatter(level, _module, group, id, filepath, line)
+    color, prefix, suffix = logger.meta_formatter(level, _module, group, id, filepath, line)
     minsuffixpad = 2
     buf = IOBuffer()
     iob = IOContext(buf, logger.stream)
@@ -159,7 +173,7 @@ end
 function handle_message(logger::OhMyLogger, level, message, _module, group, id,
                         filepath, line; maxlog=nothing, overwrite_lastlog=nothing,
                         kwargs...)
-
+    id = Symbol(filepath,"#",line)  # HACK: https://github.com/JuliaLang/julia/issues/29227
     prev_id = logger.last_message_id[]
     if overwrite_lastlog == nothing
         # default to only overwrite if same source
