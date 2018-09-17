@@ -18,7 +18,12 @@ OhMyLog.jl
    
 ## Usage
 
-Start it by running `using OhMyLog`
+Start it by running `using OhMyLog`.
+
+OhMyLog should not be a dependency of your package -- it uses the standard Base logging infastructure.
+So users can chose to load it or not.
+If they don't the log message would just print to the console like normal.
+(Or if they have special logging setup, as is done in Juno etc, then that will happen.)
 
 
 ## Demo
