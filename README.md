@@ -23,4 +23,4 @@ Start it by running `using OhMyLog`
 
 ## Demo
 
-[![Demo with HTTP.jl](https://asciinema.org/a/00hoDMBZqtNxwHxKThDg5j9cC.png)](https://asciinema.org/a/00hoDMBZqtNxwHxKThDg5j9cC)
+[![Demo with HTTP.jl](https://asciinema.org/a/00hoDMBZqtNxwHxKThDg5j9cC.png)](https://asciinema.org/a/00hoDMBZqtNxwHxKThDg5j9cC?t=9)
