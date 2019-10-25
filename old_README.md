@@ -1,9 +1,12 @@
 OhMyLog.jl
 ---------
-**A enhanced console logger for the julia REPL**
+**A enhanced console logger for the julia REPL.**  
+_kinda experimental, kinda abandoned_
 
-
-
+For a while this package was
+merged into  [OhMyRepl.jl](https://github.com/KristofferC/OhMyREPL.jl/)
+(in [#130](https://github.com/KristofferC/OhMyREPL.jl/pull/130)).
+It was pulled out because turns out to have weird interactions [when starting early in the process.](https://github.com/KristofferC/OhMyREPL.jl/pull/147)
 
 
 ## Features:
